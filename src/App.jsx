@@ -1,21 +1,38 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import LogInPage from './pages/LogInPage';
-import SignUpPage from './pages/SignUpPage';
+import Login from "./components/auth/login";
+import Register from "./components/auth/register";
 
-const App = () => {
+import Header from "./components/header";
+import Home from "./components/home";
+
+import { AuthProvider } from "./contexts/authContext";
+import { useRoutes } from "react-router-dom";
+
+function App() {
+  const routesArray = [
+    {
+      path: "*",
+      element: <Login />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/home",
+      element: <Home />,
+    },
+  ];
+  let routesElement = useRoutes(routesArray);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LogInPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        {/* Add more routes here if needed */}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Header />
+      <div className="w-full h-screen flex flex-col">{routesElement}</div>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
-

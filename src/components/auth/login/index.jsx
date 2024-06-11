@@ -36,7 +36,14 @@ const Login = () => {
                 await doSignInWithEmailAndPassword(email, password);
                 // Handle successful sign-in
             } catch (err) {
-                setErrorMessage('Error signing in. Please check your email and password.');
+                console.error(err); // Log the error to see what is returned
+                if (err.code === 'auth/user-not-found') {
+                    setErrorMessage('No user found with this email. Please register first.');
+                } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    setErrorMessage('Incorrect password. Please try again.');
+                } else {
+                    setErrorMessage('Error signing in. Please check your email and password.');
+                }
                 setIsSigningIn(false);
             }
         }
@@ -47,6 +54,7 @@ const Login = () => {
         if (!isSigningIn) {
             setIsSigningIn(true);
             doSignInWithGoogle().catch(err => {
+                console.error(err); // Log the error to see what is returned
                 setErrorMessage('Error signing in with Google.');
                 setIsSigningIn(false);
             });

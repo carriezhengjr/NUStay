@@ -1,27 +1,58 @@
-import React, { useState } from 'react'
-import { Navigate, Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../../contexts/authContext'
-import { doCreateUserWithEmailAndPassword } from '../../../firebase/auth'
+import React, { useState } from 'react';
+import { Navigate, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/authContext';
+import { doCreateUserWithEmailAndPassword } from '../../../firebase/auth';
 
 const Register = () => {
+    const navigate = useNavigate();
+    const { userLoggedIn } = useAuth();
 
-    const navigate = useNavigate()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setconfirmPassword] = useState('')
-    const [isRegistering, setIsRegistering] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
-
-    const { userLoggedIn } = useAuth()
+    const validateEmail = (email) => {
+        // Simple regex for basic email validation
+        return /\S+@\S+\.\S+/.test(email);
+    };
 
     const onSubmit = async (e) => {
-        e.preventDefault()
-        if(!isRegistering) {
-            setIsRegistering(true)
-            await doCreateUserWithEmailAndPassword(email, password)
+        e.preventDefault();
+        setErrorMessage(''); // Reset error message
+
+        if (!validateEmail(email)) {
+            setErrorMessage('Invalid email address.');
+            return;
         }
-    }
+
+        if (password.length < 6) {
+            setErrorMessage('Password must be at least 6 characters long.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match.');
+            return;
+        }
+
+        if (!isRegistering) {
+            setIsRegistering(true);
+            try {
+                await doCreateUserWithEmailAndPassword(email, password);
+                navigate('/home'); // Redirect to home after successful registration
+            } catch (err) {
+                if (err.code === 'auth/email-already-in-use') {
+                    setErrorMessage('Email is already registered. Please use a different email or login.');
+                } else {
+                    setErrorMessage('Error creating account. Please try again.');
+                }
+                setIsRegistering(false);
+            }
+        }
+    };
+
     const backgroundStyle = {
         height: '100vh', // Full viewport height
         backgroundImage: 'url("/utown.jpg")', // Path to your image in the public folder
@@ -33,8 +64,8 @@ const Register = () => {
         color: 'white',
         textAlign: 'center',
     };
+
     return (
-        <>
         <div style={backgroundStyle}>
             {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
 
@@ -44,49 +75,40 @@ const Register = () => {
                         <div className="mt-2">
                             <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">Create a New Account</h3>
                         </div>
-
                     </div>
-                    <form
-                        onSubmit={onSubmit}
-                        className="space-y-4"
-                    >
+                    <form onSubmit={onSubmit} className="space-y-4">
                         <div>
-                            <label className="text-sm text-gray-600 font-bold">
-                                Email
-                            </label>
+                            <label className="text-sm text-gray-600 font-bold">Email</label>
                             <input
                                 type="email"
                                 autoComplete='email'
                                 required
-                                value={email} onChange={(e) => { setEmail(e.target.value) }}
+                                value={email}
+                                onChange={(e) => { setEmail(e.target.value); }}
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:indigo-600 shadow-sm rounded-lg transition duration-300"
                             />
                         </div>
-
                         <div>
-                            <label className="text-sm text-gray-600 font-bold">
-                                Password
-                            </label>
+                            <label className="text-sm text-gray-600 font-bold">Password</label>
                             <input
                                 disabled={isRegistering}
                                 type="password"
                                 autoComplete='new-password'
                                 required
-                                value={password} onChange={(e) => { setPassword(e.target.value) }}
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value); }}
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
                             />
                         </div>
-
                         <div>
-                            <label className="text-sm text-gray-600 font-bold">
-                                Confirm Password
-                            </label>
+                            <label className="text-sm text-gray-600 font-bold">Confirm Password</label>
                             <input
                                 disabled={isRegistering}
                                 type="password"
                                 autoComplete='off'
                                 required
-                                value={confirmPassword} onChange={(e) => { setconfirmPassword(e.target.value) }}
+                                value={confirmPassword}
+                                onChange={(e) => { setConfirmPassword(e.target.value); }}
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
                             />
                         </div>
@@ -110,8 +132,7 @@ const Register = () => {
                 </div>
             </main>
         </div>
-        </>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
+import Map from '../map/Map';
 
 const Home = () => {
   const { currentUser, userLoggedIn } = useAuth();
@@ -15,7 +16,14 @@ const Home = () => {
           throw new Error('Network response was not ok');
         }
         const hostelsData = await response.json();
-        setHostels(hostelsData);
+        console.log('Fetched hostels:', hostelsData); // test
+        // Convert latitude and longitude to numbers if they are strings
+      const numericHostelsData = hostelsData.map(hostel => ({
+        ...hostel,
+        latitude: parseFloat(hostel.latitude),
+        longitude: parseFloat(hostel.longitude)
+      }));
+        setHostels(numericHostelsData);
       } catch (error) {
         setError(error.message);
         console.error('Error fetching hostels:', error);
@@ -74,9 +82,11 @@ const Home = () => {
         <div className="map-explore-section">
           <h2>Explore</h2>
           <div className="map-container">
+          <Map items={hostels} />
             <Link to="/explore-map">
-              <img src="path/to/your/map/image.png" alt="Explore map" className="map-image" />
-              <p>Explore on map</p>
+              {/* <img src="path/to/your/map/image.png" alt="Explore map" className="map-image" /> */}
+              {/* <p>Explore on map</p> */}
+              <button className="map-button">Map</button>
             </Link>
           </div>
         </div>

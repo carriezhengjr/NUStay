@@ -3,7 +3,8 @@ import Register from "./components/auth/register";
 
 import Header from "./components/header";
 import Home from "./components/home";
-
+import Map from "./components/map/Map";
+// import HostelDetail from "./components/HostelDetail";
 import { AuthProvider } from "./contexts/authContext";
 import { useRoutes } from "react-router-dom";
 
@@ -25,6 +26,14 @@ function App() {
       path: "/home",
       element: <Home />,
     },
+    {
+      path: "/explore-map",
+      element: <Map items={[]}/>,
+    },
+    // {
+    //   path: "/hostel/:id", 
+    //   element: <HostelDetail />,  
+    // },
   ];
   let routesElement = useRoutes(routesArray);
   return (

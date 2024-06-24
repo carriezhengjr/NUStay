@@ -12,6 +12,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single hostel by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const hostel = await Hostel.findById(req.params.id);
+    if (!hostel) {
+      return res.status(404).json({ message: 'Hostel not found' });
+    }
+    res.json(hostel);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a new hostel
 router.post('/', async (req, res) => {
   const hostel = new Hostel({
@@ -23,7 +36,7 @@ router.post('/', async (req, res) => {
     averageRating: req.body.averageRating,
     ratings: req.body.ratings,
     latitude: req.body.latitude,
-    longitude: req.body.longitude
+    longtitude: req.body.longtitude
   });
 
   try {

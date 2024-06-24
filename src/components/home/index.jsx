@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
+import List from '../list/List';
+import './home.css';
 
 const Home = () => {
   const { currentUser, userLoggedIn } = useAuth();
   const [hostels, setHostels] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchHostels = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/hostels');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const hostelsData = await response.json();
-        setHostels(hostelsData);
+        const data = await response.json();
+        data.sort((a, b) => b.averageRating - a.averageRating);
+        setHostels(data);
       } catch (error) {
-        setError(error.message);
         console.error('Error fetching hostels:', error);
       }
     };
@@ -51,25 +49,7 @@ const Home = () => {
       <div className="main-content">
         <div className="hostel-list-section">
           <h2>Top rated hostels in NUS</h2>
-          <div className="hostel-list">
-            {error ? (
-              <div>Error: {error}</div>
-            ) : (
-              hostels.map(hostel => (
-                <div key={hostel._id} className="hostel-item">
-                  <Link to={`/hostel/${hostel._id}`}>
-                    <img src={hostel.imageUrl} alt={hostel.name} className="hostel-image" />
-                    <div className="hostel-info">
-                      <h3>{hostel.name}</h3>
-                      <p>{hostel.type}</p>
-                      <p>${hostel.price} / month</p>
-                      <p>Average Rating: {hostel.averageRating}</p>
-                    </div>
-                  </Link>
-                </div>
-              ))
-            )}
-          </div>
+          <List posts={hostels} />
         </div>
         <div className="map-explore-section">
           <h2>Explore</h2>

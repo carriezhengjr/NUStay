@@ -1,0 +1,60 @@
+.hostel-info-page {
+    padding: 20px;
+  }
+  
+  .hostel-info-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hostel-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .home-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .hostel-info-content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .hostel-info-image {
+    flex: 1;
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  
+  .hostel-info-details {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .hostel-info-details p {
+    margin: 0;
+  }
+  
+  .hostel-info-details strong {
+    font-weight: bold;
+  }
+  

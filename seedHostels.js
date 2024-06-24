@@ -25,8 +25,8 @@ db.once('open', async () => {
       imageUrl: 'https://firebasestorage.googleapis.com/v0/b/auth-development-6bbed.appspot.com/o/Hostels%2Futown_residence_07.jpg?alt=media',
       averageRating: 4.5,
       ratings: [5, 4, 4, 5, 5],
-      latitude: '1.3052',
-      longitude: '103.7739'
+      latitude: 1.3052,
+      longitude: 103.7739
     },
     {
       name: 'PGP Residence',
@@ -36,8 +36,8 @@ db.once('open', async () => {
       imageUrl: 'https://firebasestorage.googleapis.com/v0/b/auth-development-6bbed.appspot.com/o/Hostels%2Fpgp_residence.jpg?alt=media',
       averageRating: 3.8,
       ratings: [4, 3, 4, 3, 4],
-      latitude: '1.2917',
-      longitude: '103.7796'
+      latitude: 1.2917,
+      longitude: 103.7796
     }
   ];
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 import List from '../list/List';
+import Map from '../map/Map';
 import './home.css';
 
 const Home = () => {
@@ -52,12 +53,14 @@ const Home = () => {
           <List posts={hostels} />
         </div>
         <div className="map-explore-section">
-          <h2>Explore</h2>
+          <h2>Map</h2>
           <div className="map-container">
-            <Link to="/explore-map">
+          <Map items={hostels} />
+            {/* <Link to="/explore-map">
               <img src="path/to/your/map/image.png" alt="Explore map" className="map-image" />
               <p>Explore on map</p>
-            </Link>
+            </Link> */}
+            
           </div>
         </div>
       </div>

@@ -24,25 +24,40 @@ db.once('open', async () => {
       type: 'Student Residence',
       imageUrl: 'https://firebasestorage.googleapis.com/v0/b/auth-development-6bbed.appspot.com/o/Hostels%2Futown_residence_07.jpg?alt=media',
       averageRating: 4.5,
-      ratings: [5, 4, 4, 5, 5],
+      ratings: [
+        { userId: 'user1', rating: 5 },
+        { userId: 'user2', rating: 4 },
+        { userId: 'user3', rating: 4 },
+        { userId: 'user4', rating: 5 },
+        { userId: 'user5', rating: 5 }
+      ],
       latitude: 1.3052,
       longitude: 103.7739
     },
     {
       name: 'PGP Residence',
-      description: 'Nestled in a valley near the Kent Ridge MRT station, the PGP Residence (PGPR) beckons to all students who wish to live in a condominium-like hostel with air-conditioned rooms, lounges, study rooms, music rooms as well as sports facilities such as badminton, basketball, tennis courts and a gym. This is not all that PGPR can offer you. Here are some of the other things you can look forward including a diverse multicultural community with residents hailing from 68 countries to strong pastoral care from the residential staff and student leaders. ',
+      description: 'Nestled in a valley near the Kent Ridge MRT station, the PGP Residence (PGPR) beckons to all students who wish to live in a condominium-like hostel with air-conditioned rooms, lounges, study rooms, music rooms as well as sports facilities such as badminton, basketball, tennis courts and a gym. This is not all that PGPR can offer you. Here are some of the other things you can look forward including a diverse multicultural community with residents hailing from 68 countries to strong pastoral care from the residential staff and student leaders.',
       price: 700,
       type: 'Student Residence',
       imageUrl: 'https://firebasestorage.googleapis.com/v0/b/auth-development-6bbed.appspot.com/o/Hostels%2Fpgp_residence.jpg?alt=media',
       averageRating: 3.8,
-      ratings: [4, 3, 4, 3, 4],
+      ratings: [
+        { userId: 'user1', rating: 4 },
+        { userId: 'user2', rating: 3 },
+        { userId: 'user3', rating: 4 },
+        { userId: 'user4', rating: 3 },
+        { userId: 'user5', rating: 4 }
+      ],
       latitude: 1.2917,
       longitude: 103.7796
     }
   ];
 
   try {
-    console.log('Inserting hostels...');
+    console.log('Deleting existing hostels...');
+    await Hostel.deleteMany({}); // Clear existing data
+
+    console.log('Inserting new hostels...');
     const result = await Hostel.insertMany(hostelsData);
     console.log('Hostels inserted:', result);
   } catch (err) {

@@ -47,4 +47,42 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Rate a hostel
+router.post('/rate-hostel/:id', async (req, res) => {
+    const { userId, rating } = req.body;
+  
+    if (!userId || !rating) {
+      return res.status(400).json({ message: 'UserId and rating are required' });
+    }
+  
+    try {
+      const hostel = await Hostel.findById(req.params.id);
+  
+      if (!hostel) {
+        return res.status(404).json({ message: 'Hostel not found' });
+      }
+  
+      // Update the user's rating or add a new one
+      const existingRating = hostel.ratings.find(r => r.userId === userId);
+  
+      if (existingRating) {
+        existingRating.rating = rating;
+      } else {
+        hostel.ratings.push({ userId, rating });
+      }
+  
+      // Update average rating
+      const totalRatings = hostel.ratings.reduce((acc, curr) => acc + curr.rating, 0);
+      hostel.averageRating = (totalRatings / hostel.ratings.length).toFixed(1); // Round to 2 decimal places
+  
+      await hostel.save();
+  
+      res.json(hostel);
+    } catch (err) {
+      res.status(500).json({ message: 'Error rating hostel', error: err.message });
+    }
+  });
+  
+  
+
 module.exports = router;

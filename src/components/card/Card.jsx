@@ -22,7 +22,7 @@ function Card({ item }) {
           <div className="features">
             <div className="feature">
               <img src="/star.png" alt="Rating" />
-              <span>{item.averageRating}</span>
+              <span>{Number(item.averageRating).toFixed(1)}</span>
             </div>
           </div>
           <div className="icons">

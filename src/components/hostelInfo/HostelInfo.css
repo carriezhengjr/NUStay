@@ -1,60 +1,53 @@
 .hostel-info-page {
+    display: flex;
     padding: 20px;
+    max-width: 1700px; /* Increase the max-width to allow more content to be visible */
+    margin: 0 auto;
+    gap: 40px; /* Add more gap between the left and right parts */
   }
   
-  .hostel-info-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  .hostel-info-left {
+    flex: 1;
+  }
+  
+  .hostel-info-right {
+    flex: 1;
+  }
+  
+  .hostel-info-image img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .hostel-info-details {
     background-color: #f8f9fa;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  .hostel-info-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .home-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .home-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .hostel-info-content {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .hostel-info-image {
-    flex: 1;
-    max-width: 300px;
-    border-radius: 10px;
-  }
-  
-  .hostel-info-details {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .hostel-info-details h1 {
+    margin-bottom: 10px;
   }
   
   .hostel-info-details p {
-    margin: 0;
+    margin: 10px 0;
   }
   
-  .hostel-info-details strong {
+  .map-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .comments-container {
+    width: 100%;
+  }
+  
+  .title {
     font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 10px;
   }
   

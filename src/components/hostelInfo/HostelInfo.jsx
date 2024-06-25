@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './HostelInfo.css';
+import Comments from './Comments';
+import Rating from '../rating/Rating';
+import Map from '../map/Map';
 
 const HostelInfo = () => {
   const { id } = useParams();
@@ -26,20 +29,25 @@ const HostelInfo = () => {
 
   return (
     <div className="hostel-info-page">
-      <div className="hostel-info-container">
-        <div className="hostel-info-header">
-          <h1>{hostel.name}</h1>
-          <Link to="/home" className="home-button">Home</Link>
+      <div className="hostel-info-left">
+        <div className="hostel-info-image">
+          <img src={hostel.imageUrl} alt={hostel.name} />
         </div>
-        <div className="hostel-info-content">
-          <img src={hostel.imageUrl} alt={hostel.name} className="hostel-info-image" />
-          <div className="hostel-info-details">
-            <p><strong>Type:</strong> {hostel.type}</p>
-            <p><strong>Price:</strong> ${hostel.price} / month</p>
-            <p><strong>Average Rating:</strong> {hostel.averageRating}</p>
-            <p><strong>Description:</strong> {hostel.description}</p>
-            <p><strong>Location:</strong> Latitude {hostel.latitude}, Longitude {hostel.longitude}</p>
-          </div>
+        <div className="hostel-info-details">
+          <h1 className="title"><strong>{hostel.name}</strong></h1>
+          <p><strong>Type:</strong> {hostel.type}</p>
+          <p><strong>Price:</strong> ${hostel.price} / month</p>
+          <p><strong>Average rating:</strong> {Number(hostel.averageRating).toFixed(1)}</p>
+          <p><strong>Description:</strong> {hostel.description}</p>
+          <Rating hostelId={id} />
+        </div>
+      </div>
+      <div className="hostel-info-right">
+        <div className="map-container">
+          <Map items={[hostel]} />
+        </div>
+        <div className="comments-container">
+          <Comments postId={id} />
         </div>
       </div>
     </div>

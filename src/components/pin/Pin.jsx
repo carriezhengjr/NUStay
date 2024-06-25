@@ -13,7 +13,7 @@ function Pin({ item }) {
             <Link to={`/hostel/${item._id}`}>{item.name}</Link>
             <span>{item.type} type</span>
             <p>${item.price} / month</p>
-            <b>Rating: {item.averageRating}</b>
+            <b>Rating: {Number(item.averageRating).toFixed(1)}</b>
           </div>
         </div>
       </Popup>

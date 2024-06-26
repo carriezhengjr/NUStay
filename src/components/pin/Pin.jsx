@@ -8,12 +8,12 @@ function Pin({ item }) {
     <Marker position={[item.latitude, item.longitude]}>
       <Popup>
         <div className="popupContainer">
-          {/* <img src={item.imageUrl} alt="item.name" /> */}
+          {/* <img src={item.imageUrls[0]} alt="item.name" /> */}
           <div className="textContainer">
             <Link to={`/hostel/${item._id}`}>{item.name}</Link>
             <span>{item.type} type</span>
             <p>${item.price} / month</p>
-            <b>Rating: {Number(item.averageRating).toFixed(1)}</b>
+            <b>Rating: {Number(item.averageRating).toFixed(1)} ({item.ratings.length})</b>
           </div>
         </div>
       </Popup>

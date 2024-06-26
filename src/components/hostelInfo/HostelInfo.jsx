@@ -4,6 +4,7 @@ import './HostelInfo.css';
 import Comments from './Comments';
 import Rating from '../rating/Rating';
 import Map from '../map/Map';
+import Slider from '../slider/Slider';
 
 const HostelInfo = () => {
   const { id } = useParams();
@@ -27,17 +28,19 @@ const HostelInfo = () => {
     return <div>Loading...</div>;
   }
 
+  const numberOfRatings = hostel.ratings.length;
+
   return (
     <div className="hostel-info-page">
       <div className="hostel-info-left">
+        <h1 className="title"><strong>{hostel.name}</strong></h1>
         <div className="hostel-info-image">
-          <img src={hostel.imageUrl} alt={hostel.name} />
+          <Slider images={hostel.imageUrls} />
         </div>
         <div className="hostel-info-details">
-          <h1 className="title"><strong>{hostel.name}</strong></h1>
           <p><strong>Type:</strong> {hostel.type}</p>
           <p><strong>Price:</strong> ${hostel.price} / month</p>
-          <p><strong>Average rating:</strong> {Number(hostel.averageRating).toFixed(1)}</p>
+          <p><strong>Average rating:</strong> {Number(hostel.averageRating).toFixed(1)} ({numberOfRatings})</p>
           <p><strong>Description:</strong> {hostel.description}</p>
           <Rating hostelId={id} />
         </div>

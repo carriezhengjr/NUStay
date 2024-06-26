@@ -44,15 +44,34 @@ const Rating = ({ hostelId }) => {
     }
   };
 
+  const deleteRating = async () => {
+    try {
+      console.log("Deleting rating for user:", currentUser.uid);
+
+      const response = await axios.post(`http://localhost:5000/api/hostels/delete-rating/${hostelId}`, {
+        userId: currentUser.uid,
+      });
+
+      console.log("Delete rating response:", response.data);
+      setRating(null);
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error deleting rating:", error);
+      alert("Failed to delete rating");
+    }
+  };
+
   return (
     <div className="rating-container">
       {rating && !editMode ? (
         <div className="user-rating">
           <p>Your rating for this hostel is {rating} stars</p>
           <button onClick={() => setEditMode(true)} className="edit-button">Edit</button>
+          <button onClick={deleteRating} className="delete-button">Delete</button>
         </div>
       ) : (
-        <div>
+        <div className="rating-edit">
+          <p>Rate from 1-5 for this hostel: </p>
           <Stars
             count={5}
             defaultRating={rating}

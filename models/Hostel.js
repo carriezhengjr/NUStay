@@ -10,7 +10,7 @@ const hostelSchema = new mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   type: { type: String, required: true },
-  imageUrl: { type: String, required: true },
+  imageUrls: { type: [String], required: true }, // Change to array of strings
   averageRating: { type: Number, required: true },
   ratings: { type: [ratingSchema], required: true },
   latitude: { type: String, required: true },

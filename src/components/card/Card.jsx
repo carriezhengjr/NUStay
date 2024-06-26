@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import "./card.css";
 
 function Card({ item }) {
-  console.log("Image URL for item", item._id, ":", item.imageUrl); // Log the image URL to verify
+  console.log("Image URL for item", item._id, ":", item.imageUrls[0]); // Log the first image URL to verify
 
   return (
     <div className="card">
       <Link to={`/hostel/${item._id}`} className="imageContainer">
-        <img src={item.imageUrl} alt={item.name} />
+        <img src={item.imageUrls[0]} alt={item.name} /> {/* Use the first image */}
       </Link>
       <div className="textContainer">
         <h2 className="title">
@@ -22,7 +22,7 @@ function Card({ item }) {
           <div className="features">
             <div className="feature">
               <img src="/star.png" alt="Rating" />
-              <span>{Number(item.averageRating).toFixed(1)}</span>
+              <span>{Number(item.averageRating).toFixed(1)} ({item.ratings.length})</span>
             </div>
           </div>
           <div className="icons">

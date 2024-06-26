@@ -3,21 +3,23 @@
     padding: 20px;
     max-width: 1700px; /* Increase the max-width to allow more content to be visible */
     margin: 0 auto;
-    gap: 40px; /* Add more gap between the left and right parts */
   }
   
   .hostel-info-left {
     flex: 1;
+    margin-right: 30px; /* Reduce the margin to add more space */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   .hostel-info-right {
     flex: 1;
+    margin-left: 30px; /* Add margin to balance the gap */
   }
   
-  .hostel-info-image img {
+  .hostel-info-image {
     width: 100%;
-    height: auto;
-    margin-bottom: 20px;
   }
   
   .hostel-info-details {
@@ -50,4 +52,3 @@
     font-size: 25px;
     margin-bottom: 10px;
   }
-  

@@ -73,7 +73,7 @@ router.post('/rate-hostel/:id', async (req, res) => {
   
       // Update average rating
       const totalRatings = hostel.ratings.reduce((acc, curr) => acc + curr.rating, 0);
-      hostel.averageRating = (totalRatings / hostel.ratings.length).toFixed(1); // Round to 2 decimal places
+      hostel.averageRating = (totalRatings / hostel.ratings.length).toFixed(1); // Round to 1 decimal places
   
       await hostel.save();
   
@@ -83,6 +83,35 @@ router.post('/rate-hostel/:id', async (req, res) => {
     }
   });
   
+// Delete a rating
+router.post('/delete-rating/:id', async (req, res) => {
+    const { userId } = req.body;
+  
+    if (!userId) {
+      return res.status(400).json({ message: 'UserId is required' });
+    }
+  
+    try {
+      const hostel = await Hostel.findById(req.params.id);
+  
+      if (!hostel) {
+        return res.status(404).json({ message: 'Hostel not found' });
+      }
+  
+      // Remove the user's rating
+      hostel.ratings = hostel.ratings.filter(r => r.userId !== userId);
+  
+      // Update average rating
+      const totalRatings = hostel.ratings.reduce((acc, curr) => acc + curr.rating, 0);
+      hostel.averageRating = hostel.ratings.length > 0 ? (totalRatings / hostel.ratings.length).toFixed(1) : 0;
+  
+      await hostel.save();
+  
+      res.json(hostel);
+    } catch (err) {
+      res.status(500).json({ message: 'Error deleting rating', error: err.message });
+    }
+  });
   
 
 module.exports = router;

@@ -5,10 +5,13 @@ import Comments from './Comments';
 import Rating from '../rating/Rating';
 import Map from '../map/Map';
 import Slider from '../slider/Slider';
+import { useAuth } from '../../contexts/authContext';
 
 const HostelInfo = () => {
   const { id } = useParams();
+  const { currentUser } = useAuth();
   const [hostel, setHostel] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     const fetchHostel = async () => {
@@ -16,13 +19,30 @@ const HostelInfo = () => {
         const response = await fetch(`http://localhost:5000/api/hostels/${id}`);
         const data = await response.json();
         setHostel(data);
+        setIsSaved(data.savedBy.includes(currentUser.uid));
       } catch (error) {
         console.error('Error fetching hostel:', error);
       }
     };
 
     fetchHostel();
-  }, [id]);
+  }, [id, currentUser.uid]);
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/hostels/save/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: currentUser.uid }),
+      });
+      const data = await response.json();
+      setIsSaved(data.savedBy.includes(currentUser.uid));
+    } catch (error) {
+      console.error('Error saving hostel:', error);
+    }
+  };
 
   if (!hostel) {
     return <div>Loading...</div>;
@@ -43,6 +63,10 @@ const HostelInfo = () => {
           <p><strong>Average rating:</strong> {Number(hostel.averageRating).toFixed(1)} ({numberOfRatings})</p>
           <p><strong>Description:</strong> {hostel.description}</p>
           <Rating hostelId={id} />
+          <div className={`save-button-container ${isSaved ? 'saved' : ''}`} onClick={handleSave}>
+            <span>{isSaved ? 'Hostel saved ' : 'Save this hostel '}</span>
+            <img src="/save.png" alt="Save" />
+          </div>
         </div>
       </div>
       <div className="hostel-info-right">

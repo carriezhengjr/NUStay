@@ -96,3 +96,33 @@
 .icon:hover {
   background-color: lightgray;
 }
+
+.save-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-button img {
+  width: 16px;
+  height: 16px;
+}
+
+.save-button.saved {
+  background-color: #6b46c1; /* Purple background color */
+  border-color: #6b46c1;
+}
+
+.save-button.saved img {
+  filter: brightness(0) invert(1); /* White icon on purple background */
+}
+
+.save-button:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+}

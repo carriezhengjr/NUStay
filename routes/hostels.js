@@ -113,5 +113,33 @@ router.post('/delete-rating/:id', async (req, res) => {
     }
   });
   
-
+// Save a hostel
+router.post('/save/:id', async (req, res) => {
+    const { userId } = req.body;
+  
+    if (!userId) {
+      return res.status(400).json({ message: 'UserId is required' });
+    }
+  
+    try {
+      const hostel = await Hostel.findById(req.params.id);
+  
+      if (!hostel) {
+        return res.status(404).json({ message: 'Hostel not found' });
+      }
+  
+      if (hostel.savedBy.includes(userId)) {
+        hostel.savedBy = hostel.savedBy.filter(id => id !== userId); // Remove user ID if it already exists
+      } else {
+        hostel.savedBy.push(userId); // Add user ID if it doesn't exist
+      }
+  
+      await hostel.save();
+  
+      res.json(hostel);
+    } catch (err) {
+      res.status(500).json({ message: 'Error saving hostel', error: err.message });
+    }
+  });
+  
 module.exports = router;

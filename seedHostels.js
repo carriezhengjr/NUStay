@@ -31,7 +31,8 @@ db.once('open', async () => {
       averageRating: 0,
       ratings: [],
       latitude: 1.3052,
-      longitude: 103.7739
+      longitude: 103.7739,
+      savedBy: [] // Initialize with an empty array
     },
     {
       name: 'PGP Residence',
@@ -47,7 +48,8 @@ db.once('open', async () => {
       averageRating: 0,
       ratings: [],
       latitude: 1.2917,
-      longitude: 103.7796
+      longitude: 103.7796,
+      savedBy: [] // Initialize with an empty array
     }
   ];
 

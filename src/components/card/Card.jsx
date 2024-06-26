@@ -1,8 +1,30 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
+import apiRequest from "../../lib/apiRequest";
 import "./card.css";
 
 function Card({ item }) {
-  console.log("Image URL for item", item._id, ":", item.imageUrls[0]); // Log the first image URL to verify
+  const { currentUser } = useAuth();
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    if (currentUser && item.savedBy.includes(currentUser.uid)) {
+      setIsSaved(true);
+    }
+  }, [currentUser, item.savedBy]);
+
+  const handleSave = async () => {
+    if (!currentUser) return;
+
+    setIsSaved((prev) => !prev);
+    try {
+      await apiRequest.post(`/hostels/save/${item._id}`, { userId: currentUser.uid });
+    } catch (err) {
+      console.error(err);
+      setIsSaved((prev) => !prev);
+    }
+  };
 
   return (
     <div className="card">
@@ -25,13 +47,8 @@ function Card({ item }) {
               <span>{Number(item.averageRating).toFixed(1)} ({item.ratings.length})</span>
             </div>
           </div>
-          <div className="icons">
-            <div className="icon">
-              <img src="/save.png" alt="Save" />
-            </div>
-            <div className="icon">
-              <img src="/chat.png" alt="Chat" />
-            </div>
+          <div className={`save-button ${isSaved ? "saved" : ""}`} onClick={handleSave}>
+            <img src="/save.png" alt="Save" />
           </div>
         </div>
       </div>

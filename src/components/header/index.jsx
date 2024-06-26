@@ -17,9 +17,11 @@ const Header = () => {
           <span>NUStay</span>
         </Link>
         <Link to="/home" className="nav-button">Home</Link>
-        <a href="/" className="nav-button">Explore</a>
-        <a href="/" className="nav-button">Saved</a>
-        <a href="/" className="nav-button">About</a>
+        <Link to="/explore" className="nav-button">Explore</Link>
+        {userLoggedIn && (
+          <Link to="/saved" className="nav-button">Saved</Link>
+        )}
+        <Link to="/about" className="nav-button">About</Link>
       </div>
       <div className="right">
         {userLoggedIn ? (
@@ -57,9 +59,9 @@ const Header = () => {
         </div>
         <div className={open ? "menu active" : "menu"}>
           <Link to="/home">Home</Link>
-          <a href="/">About</a>
-          <a href="/">Contact</a>
-          <a href="/">Agents</a>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/agents">Agents</Link>
           <Link to="/login">Sign in</Link>
           <Link to="/register">Sign up</Link>
         </div>

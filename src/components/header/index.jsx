@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 import { doSignOut } from '../../firebase/auth';
-import './navbar.css'; // Import the new CSS file
+import './navbar.css';
 
 const Header = () => {
   const navigate = useNavigate();
   const { userLoggedIn, currentUser } = useAuth();
   const [open, setOpen] = useState(false);
+  const [photoURL, setPhotoURL] = useState(currentUser?.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+
+  useEffect(() => {
+    if (currentUser?.photoURL) {
+      setPhotoURL(currentUser.photoURL);
+    }
+  }, [currentUser]);
 
   return (
     <nav>
@@ -34,12 +41,11 @@ const Header = () => {
             </button>
             <div className="user">
               <img
-                src="https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={photoURL}
                 alt="User"
               />
-              <span>{currentUser.displayName ? currentUser.displayName : currentUser.email}</span>
+              <span>{currentUser?.displayName || currentUser?.email}</span>
               <Link to="/profile" className="profile nav-button">
-                <div className="notification">1</div>
                 <span>Profile</span>
               </Link>
             </div>

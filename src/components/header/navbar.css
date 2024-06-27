@@ -105,7 +105,6 @@ nav {
   nav .right .profile:hover {
     transform: scale(1.1);
   }
-
   
   nav .right .register {
     background-color: #6b46c1; /* Purple background color */

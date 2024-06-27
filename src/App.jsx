@@ -3,7 +3,8 @@ import Register from "./components/auth/register";
 import Header from "./components/header";
 import Home from "./components/home";
 import HostelInfo from "./components/hostelInfo/HostelInfo";
-import SavedHostels from "./components/saved/SavedHostels"; // Import the new SavedHostels component
+import SavedHostels from "./components/saved/SavedHostels";
+import Profile from "./components/user/Profile"; // Import the Profile component
 import { AuthProvider } from "./contexts/authContext";
 import { useRoutes } from "react-router-dom";
 
@@ -30,8 +31,12 @@ function App() {
       element: <HostelInfo />,
     },
     {
-      path: "/saved", // Add the new route for saved hostels
+      path: "/saved",
       element: <SavedHostels />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />, // Add the new route for the profile page
     },
   ];
 

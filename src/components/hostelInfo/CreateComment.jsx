@@ -16,6 +16,7 @@ const CreateComment = ({ postId }) => {
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName || currentUser.email,
+        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
         upvotes: 0 // Initialize upvotes to 0
       });
       setComment("");

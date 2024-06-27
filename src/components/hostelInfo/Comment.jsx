@@ -34,6 +34,7 @@ const Comment = ({ postId, comment }) => {
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName || currentUser.email,
+        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
       });
       setReply("");
       setShowReplyInput(false);
@@ -78,7 +79,7 @@ const Comment = ({ postId, comment }) => {
   return (
     <div id="comment-container">
       <div id="comment-img-container">
-        <img id="user-comment-profile" src="https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="User Profile" />
+        <img id="user-comment-profile" src={comment.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile" />
         {currentUser.uid === comment.uid && (
           <div className="comment-actions">
             <button id="edit-comment" onClick={() => setIsEditing(!isEditing)}>
@@ -135,6 +136,8 @@ const Comment = ({ postId, comment }) => {
 const Replies = ({ postId, commentId }) => {
   const { currentUser } = useAuth();
   const [replies, setReplies] = useState([]);
+  const [editingReplyId, setEditingReplyId] = useState(null);
+  const [editedReply, setEditedReply] = useState("");
 
   useEffect(() => {
     const q = query(collection(db, "posts", postId, "comments", commentId, "replies"), orderBy('createdAt'));
@@ -154,9 +157,6 @@ const Replies = ({ postId, commentId }) => {
     await deleteDoc(doc(db, "posts", postId, "comments", commentId, "replies", replyId));
   };
 
-  const [editingReplyId, setEditingReplyId] = useState(null);
-  const [editedReply, setEditedReply] = useState("");
-
   const editReply = async (replyId, newReply) => {
     await updateDoc(doc(db, "posts", postId, "comments", commentId, "replies", replyId), {
       comment: newReply,
@@ -174,23 +174,25 @@ const Replies = ({ postId, commentId }) => {
       {replies.map((reply) => (
         <div key={reply.id} id="reply-container">
           <div id="reply-content">
-            <div>
-              <p id="reply-user">{reply.displayName}:</p> {editingReplyId === reply.id ? (
-                <>
-                  <textarea
-                    value={editedReply}
-                    onChange={(e) => setEditedReply(e.target.value)}
-                  />
-                  <div className="edit-actions">
-                    <button onClick={() => editReply(reply.id, editedReply)} className="submit-button">Save</button>
-                    <button onClick={() => setEditingReplyId(null)} className="cancel-button">Cancel</button>
-                  </div>
-                </>
-              ) : (
-                reply.comment
-              )}
+            <img id="user-reply-profile" src={reply.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile"  />
+            <div className="reply-user-info">
+              <p id="reply-user">{reply.displayName}</p>
+              <p id="reply-timestamp">{formatDate(reply.createdAt)} {reply.updatedAt && `(Edited at: ${formatDate(reply.updatedAt)})`}</p>
             </div>
-            <p id="reply-timestamp">Created at: {formatDate(reply.createdAt)} {reply.updatedAt && `(Edited at: ${formatDate(reply.updatedAt)})`}</p>
+            {editingReplyId === reply.id ? (
+              <>
+                <textarea
+                  value={editedReply}
+                  onChange={(e) => setEditedReply(e.target.value)}
+                />
+                <div className="edit-actions">
+                  <button onClick={() => editReply(reply.id, editedReply)} className="submit-button">Save</button>
+                  <button onClick={() => setEditingReplyId(null)} className="cancel-button">Cancel</button>
+                </div>
+              </>
+            ) : (
+              <p className="reply-body">{reply.comment}</p>
+            )}
             {currentUser.uid === reply.uid && (
               <div className="reply-actions">
                 <button onClick={() => {

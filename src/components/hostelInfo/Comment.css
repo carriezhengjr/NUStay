@@ -8,79 +8,96 @@
     border-radius: 10px;
     border: 0.5px solid lightgrey;
     margin-bottom: 2vh;
-  }
-  
-  #comment-img-container {
+}
+
+#comment-img-container {
     width: 10vh;
-  }
-  
-  #user-comment-profile {
+}
+
+#user-comment-profile {
     width: 50px;
     height: 50px;
     border-radius: 40px;
     border: 0.5px solid grey;
     background-color: azure;
-  }
-  
-  .comment-actions {
+}
+
+#user-reply-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+    border: 0.5px solid grey;
+    background-color: azure;
+    margin-right: 10px;
+    float: left; 
+}
+
+.comment-actions {
     display: flex;
     gap: 0.5rem;
     color: gray;
     margin-top: 5px;
-  }
-  
-  #edit-comment, #delete-comment {
+}
+
+#edit-comment, #delete-comment {
     border: none;
     background: none;
     color: darkgray;
     cursor: pointer;
     transition: color 0.3s ease;
-  }
-  
-  #edit-comment:hover, #delete-comment:hover {
+}
+
+#edit-comment:hover, #delete-comment:hover {
     color: #0056b3;
-  }
-  
-  #comment-content-container {
+}
+
+#comment-content-container {
     margin-left: 0.5vw;
     flex-grow: 1;
-  }
-  
-  #comment-content-user {
+}
+
+#comment-content-user {
     font-size: 0.8rem;
     color: rgb(145, 144, 144);
-  }
-  
-  #comment-timestamp {
+}
+
+#comment-timestamp {
     font-size: 0.3rem;
     color: gray;
-  }
-  
-  #reply-user {
+}
+
+#reply-user {
     font-size: 0.8rem;
     color: gray;
-  }
-  
-  #comment-content-body, .reply-content-body {
+    margin-bottom: 0;
+}
+
+.reply-user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#comment-content-body, .reply-content-body {
     font-size: 1rem;
-  }
-  
-  .reply-button {
+}
+
+.reply-button {
     font-size: 0.8rem;
     color: rgb(79, 70, 229);
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
-  }
-  
-  #reply-input-container {
+}
+
+#reply-input-container {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-  }
-  
-  #reply-input {
+}
+
+#reply-input {
     resize: none;
     border: 0.5px solid lightgray;
     height: 10vh;
@@ -89,9 +106,9 @@
     padding: 1rem;
     font-size: 1rem;
     font-family: 'Josefin Sans', sans-serif;
-  }
-  
-  .submit-button, .cancel-button {
+}
+
+.submit-button, .cancel-button {
     padding: 12px 24px;
     margin-top: 2%;
     border: none;
@@ -102,44 +119,43 @@
     cursor: pointer;
     background-color: #6b46c1;
     transition: transform 0.3s ease, background-color 0.3s ease;
-  }
-  
-  .submit-button:hover, .cancel-button:hover {
+}
+
+.submit-button:hover, .cancel-button:hover {
     transform: scale(1.1);
     background-color: #5a39a7;
     color: white; /* Ensure text color stays white */
-  }
-  
-  .edit-actions {
+}
+
+.edit-actions {
     display: flex;
     gap: 10px;
     margin-top: 10px;
-  }
-  
-  #replies-container {
+}
+
+#replies-container {
     margin-left: 2rem;
     margin-top: 1rem;
-  }
-  
-  #reply-container {
+}
+
+#reply-container {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-  }
-  
-  .reply-actions {
+}
+
+.reply-actions {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     color: gray;
-  }
-  
-  .upvote-button {
+}
+
+.upvote-button {
     background: none;
     border: none;
     cursor: pointer;
     color: rgb(79, 70, 229);
     display: flex;
     align-items: center;
-  }
-  
+}

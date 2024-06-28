@@ -1,0 +1,120 @@
+.filter-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 50px;
+    font-size: 30px; /* Increased font size */
+  }
+
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+
+    .filter-row, .price-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 15px;
+
+      .filter-item {
+        flex: 1;
+        margin-right: 20px; /* Adjusted margin to separate columns */
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 23px; /* Increased font size */
+        }
+
+        .button-group {
+          display: flex;
+          flex-wrap: nowrap; /* Ensure all buttons are on the same row */
+
+          .filter-button {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc; /* Grey border */
+            background-color: white;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            font-size: 20px; /* Increased font size */
+            border-radius: 20px; /* Rounded corners */
+
+            &:hover {
+              background-color: #f0f0f0; /* Light grey on hover */
+            }
+
+            &.selected {
+              background: linear-gradient(to bottom, #917afd, #6246ea);
+              color: white;
+              border-color: #ccc; /* Grey border for selected state */
+            }
+          }
+        }
+
+        input {
+          width: 100%;
+          padding: 8px;
+          box-sizing: border-box;
+          font-size: 20px; /* Increased font size */
+        }
+      }
+    }
+
+    .price-row {
+      .filter-item {
+        flex: 1;
+        margin-right: 20px; /* Adjusted margin to separate columns */
+        
+        &:last-child {
+          // margin-right: 0;
+          margin-left: 20px; /* Adjusted margin to separate columns */
+        }
+
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 23px; /* Increased font size */
+        }
+
+        input {
+          width: 100%;
+          padding: 8px;
+          box-sizing: border-box;
+          font-size: 20px; /* Increased font size */
+        }
+      }
+    }
+
+    .apply-filter-button {
+      padding: 10px;
+      background-color: #680da9; /* Purple background */
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 22px; /* Increased font size */
+      border-radius: 20px; /* Rounded corners */
+      border: 1px solid #ccc; /* Grey border */
+
+      &:hover {
+        // background: linear-gradient(to bottom, #917afd, #6246ea);
+        transform: scale(1.1);
+      }
+    }
+
+    .reset-button {
+      margin-top: 10px; /* Adjust margin */
+    }
+  }
+}

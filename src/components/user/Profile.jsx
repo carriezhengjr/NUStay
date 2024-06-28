@@ -23,6 +23,16 @@ export default function Profile() {
   }
 
   async function handleUsernameUpdate() {
+    if (username.length > 10) {
+      alert("Username must be less than 10 characters!");
+      return;
+    }
+
+    if (username.trim() === "") {
+      alert("Username cannot be empty!");
+      return;
+    }
+
     setUsernameLoading(true);
     await updateUsername(username, currentUser, setUsernameLoading, setCurrentUser);
   }
@@ -40,10 +50,12 @@ export default function Profile() {
     <div className="fields">
       <input 
         type="text" 
-        value={username} 
+        /* value={username}  */
         onChange={(e) => setUsername(e.target.value)} 
-        placeholder="Enter your username"
+        placeholder="Update your username here"
         disabled={usernameLoading}
+        className="username-input"
+        maxLength={10} // Limit the input length to 10 characters
       />
       <button 
         className={usernameLoading ? 'disabled' : ''} 
@@ -52,20 +64,21 @@ export default function Profile() {
       >
         Update Username
       </button>
+      <p>Your current username is: {currentUser?.displayName}</p>
       <label htmlFor="fileInput" className={`choose-file-button ${loading ? 'disabled' : ''}`}>
-        Choose File
+        Choose Profile Image
         <input id="fileInput" type="file" onChange={handleChange} disabled={loading} />
       </label>
+      <div className="avatar-container">
+        <img src={photoURL} alt="Avatar" className="avatar" />
+      </div>
       <button 
         className={loading ? 'disabled' : ''} 
         disabled={loading || !photo} 
         onClick={handleUpload}
       >
-        Upload Photo
+        Click to Upload
       </button>
-      <div className="avatar-container">
-        <img src={photoURL} alt="Avatar" className="avatar" />
-      </div>
     </div>
   );
 }

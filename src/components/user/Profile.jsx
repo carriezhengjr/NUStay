@@ -73,7 +73,7 @@ export default function Profile() {
         <img src={photoURL} alt="Avatar" className="avatar" />
       </div>
       <button 
-        className={loading ? 'disabled' : ''} 
+        className={`upload-button ${loading ? 'disabled' : ''}`} 
         disabled={loading || !photo} 
         onClick={handleUpload}
       >

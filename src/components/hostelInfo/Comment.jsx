@@ -34,7 +34,7 @@ const Comment = ({ postId, comment }) => {
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName || currentUser.email,
-        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        photoURL: currentUser.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
       });
       setReply("");
       setShowReplyInput(false);
@@ -79,7 +79,7 @@ const Comment = ({ postId, comment }) => {
   return (
     <div id="comment-container">
       <div id="comment-img-container">
-        <img id="user-comment-profile" src={comment.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile" />
+        <img id="user-comment-profile" src={comment.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"} alt="User Profile" />
         {currentUser.uid === comment.uid && (
           <div className="comment-actions">
             <button id="edit-comment" onClick={() => setIsEditing(!isEditing)}>
@@ -174,7 +174,7 @@ const Replies = ({ postId, commentId }) => {
       {replies.map((reply) => (
         <div key={reply.id} id="reply-container">
           <div id="reply-content">
-            <img id="user-reply-profile" src={reply.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile" />
+            <img id="user-reply-profile" src={reply.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"} alt="User Profile" />
             <div className="reply-user-info">
               <p id="reply-user">{reply.displayName}</p>
               <p id="reply-timestamp">{formatDate(reply.createdAt)} {reply.updatedAt && `(Edited at: ${formatDate(reply.updatedAt)})`}</p>

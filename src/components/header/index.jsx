@@ -7,12 +7,15 @@ import './navbar.css';
 const Header = () => {
   const navigate = useNavigate();
   const { userLoggedIn, currentUser } = useAuth();
+  const defaultPhotoURL = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
   const [open, setOpen] = useState(false);
   const [photoURL, setPhotoURL] = useState(currentUser?.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
   useEffect(() => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
+    } else {
+        setPhotoURL(defaultPhotoURL);
     }
   }, [currentUser]);
 

@@ -78,11 +78,11 @@ const Home = () => {
 
       <div className="search-bar-container"> 
         <SearchBar hostels={hostels} setFilteredHostels={handleSearch} />
-        <button className="filter-button profile nav-button" onClick={handleFilterClick}>
+        <button className="filter-button profile" onClick={handleFilterClick}>
           Filter
         </button>
         {isFilterApplied && (
-          <button className="cancel-filter-button profile nav-button" onClick={handleCancelFilter}>
+          <button className="cancel-filter-button profile" onClick={handleCancelFilter}>
             Cancel Filter
           </button>
         )}
@@ -94,7 +94,7 @@ const Home = () => {
           <List posts={filteredHostels} />
         </div>
         <div className="map-explore-section">
-          <h2>Map</h2>
+          <h2>Map(click on pin to view hostel info)</h2>
           <div className="map-container">
             <Map items={filteredHostels} />
           </div>

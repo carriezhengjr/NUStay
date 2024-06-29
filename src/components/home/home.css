@@ -1,5 +1,7 @@
 .home-page {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Make the home page full height */
 }
 
 .header {
@@ -17,6 +19,7 @@
   max-width: 2000px; /* Limit the maximum width for better responsiveness */
   margin: 0 auto; /* Center align horizontally */
 }
+
 .filter-button {
   padding: 10px 20px;
   background-color: #6b46c1;
@@ -35,7 +38,7 @@
 }
 
 .cancel-filter-button {
-  padding: 10px 20px;
+  padding: 0px 0px;
   background-color: #ff4d4d;
   color: white;
   border: none;
@@ -61,10 +64,14 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  flex: 1; /* Make main content take remaining space */
+  overflow: hidden; /* Prevent main content from overflowing */
 }
 
 .hostel-list-section {
   flex: 1;
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-left: 20px; /* Add margin to the left of the card components */
 }
 
 .hostel-list {
@@ -81,12 +88,14 @@
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .map-container {
   margin-top: 20px;
   width: 100%;
-  height: 400px; /* Adjusted height */
+  height: 600px; /* Increase the height of the map component */
+  position: relative; /* Keep map position static */
 }
 
 .map-image {
@@ -106,6 +115,6 @@
   }
 
   .map-container {
-    height: 300px; /* Adjusted height for smaller screens */
+    height: 500px; /* Adjusted height for smaller screens */
   }
 }

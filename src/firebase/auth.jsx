@@ -1,4 +1,4 @@
-import { auth, storage } from "./firebase";
+import { auth, storage, db } from "./firebase"; // make sure to import db here
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { writeBatch, doc, getDocs, collectionGroup, query, where } from "firebase/firestore"; // import necessary Firestore functions
 
 export const doCreateUserWithEmailAndPassword = async (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password);
@@ -23,8 +24,6 @@ export const doSignInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   const result = await signInWithPopup(auth, provider);
   const user = result.user;
-
-  // add user to firestore
 };
 
 export const doSignOut = () => {
@@ -86,6 +85,23 @@ export const updateUsername = async (username, currentUser, setLoading, setCurre
 
     // Update the currentUser state with the new data
     setCurrentUser((prev) => ({ ...prev, displayName: username }));
+
+    // Update the displayName in comments and replies
+    const batch = writeBatch(db);
+
+    // Fetch all comments made by the current user
+    const commentsQuerySnapshot = await getDocs(query(collectionGroup(db, "comments"), where("uid", "==", currentUser.uid)));
+    commentsQuerySnapshot.forEach((doc) => {
+      batch.update(doc.ref, { displayName: username });
+    });
+
+    // Fetch all replies made by the current user
+    const repliesQuerySnapshot = await getDocs(query(collectionGroup(db, "replies"), where("uid", "==", currentUser.uid)));
+    repliesQuerySnapshot.forEach((doc) => {
+      batch.update(doc.ref, { displayName: username });
+    });
+
+    await batch.commit();
 
     setLoading(false);
     alert("Username updated! Refresh to see changes.");

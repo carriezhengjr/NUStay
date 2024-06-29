@@ -9,43 +9,52 @@
 
 .search-bar-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   margin-bottom: 20px;
+  gap: 10px;
+  width: 100%; /* Set the width to 100% */
+  max-width: 2000px; /* Limit the maximum width for better responsiveness */
+  margin: 0 auto; /* Center align horizontally */
+}
+.filter-button {
+  padding: 10px 20px;
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 0;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.filter-button:hover {
+  /* background: linear-gradient(to bottom, #917afd, #6246ea); */
+  transform: scale(1.1);
+}
+
+.cancel-filter-button {
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.cancel-filter-button:hover {
+  transform: scale(1.1);
 }
 
 .search-bar {
-  width: 80%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.filter-container {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.filter-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.filter-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
-.filter-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 .main-content {

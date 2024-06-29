@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/authContext';
+import { useHostels } from '../../contexts/HostelContext';
 import Card from '../card/Card';
 import './savedHostels.css';
 
 const SavedHostels = () => {
   const { currentUser } = useAuth();
+  const { hostels } = useHostels();
   const [savedHostels, setSavedHostels] = useState([]);
 
   useEffect(() => {
-    const fetchSavedHostels = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/hostels');
-        const hostels = await response.json();
-        const userSavedHostels = hostels.filter(hostel => hostel.savedBy.includes(currentUser.uid));
-        setSavedHostels(userSavedHostels);
-      } catch (error) {
-        console.error('Error fetching saved hostels:', error);
-      }
-    };
-
-    fetchSavedHostels();
-  }, [currentUser.uid]);
+    const userSavedHostels = hostels.filter(hostel => hostel.savedBy.includes(currentUser.uid));
+    setSavedHostels(userSavedHostels);
+  }, [hostels, currentUser.uid]);
 
   return (
     <div className="saved-hostels-page">

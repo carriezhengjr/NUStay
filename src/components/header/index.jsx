@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { userLoggedIn, currentUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [photoURL, setPhotoURL] = useState(currentUser?.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+  const [photoURL, setPhotoURL] = useState(currentUser?.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
   useEffect(() => {
     if (currentUser?.photoURL) {

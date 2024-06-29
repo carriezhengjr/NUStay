@@ -103,19 +103,24 @@
   justify-content: center;
   padding: 10px;
   border: 1px solid grey;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+  background-color: white;
+  color: black;
 }
 
 .save-button img {
   width: 16px;
   height: 16px;
+  margin-left: 5px;
 }
 
 .save-button.saved {
   background-color: #6b46c1; /* Purple background color */
   border-color: #6b46c1;
+  color: white;
 }
 
 .save-button.saved img {
@@ -125,4 +130,8 @@
 .save-button:hover {
   transform: scale(1.1);
   background-color: #f0f0f0;
+}
+
+.save-button.saved:hover {
+  background-color: #5a39a7;
 }

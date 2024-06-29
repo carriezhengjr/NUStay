@@ -16,7 +16,7 @@ const CreateComment = ({ postId }) => {
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName || currentUser.email,
-        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        photoURL: currentUser.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
         upvotes: 0 // Initialize upvotes to 0
       });
       setComment("");

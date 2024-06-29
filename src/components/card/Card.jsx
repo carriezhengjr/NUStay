@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/authContext";
-import apiRequest from "../../lib/apiRequest";
-import "./card.css";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/authContext';
+import { useHostels } from '../../contexts/HostelContext';
+import './card.css';
 
 function Card({ item }) {
   const { currentUser } = useAuth();
+  const { saveHostel } = useHostels();
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
@@ -18,12 +19,7 @@ function Card({ item }) {
     if (!currentUser) return;
 
     setIsSaved((prev) => !prev);
-    try {
-      await apiRequest.post(`/hostels/save/${item._id}`, { userId: currentUser.uid });
-    } catch (err) {
-      console.error(err);
-      setIsSaved((prev) => !prev);
-    }
+    await saveHostel(item._id, currentUser.uid);
   };
 
   return (
@@ -48,6 +44,7 @@ function Card({ item }) {
             </div>
           </div>
           <div className={`save-button ${isSaved ? "saved" : ""}`} onClick={handleSave}>
+            <span>{isSaved ? 'Hostel saved ' : 'Save this hostel '}</span>
             <img src="/save.png" alt="Save" />
           </div>
         </div>

@@ -1,28 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
+import { useHostels } from '../../contexts/HostelContext';
 import List from '../list/List';
 import Map from '../map/Map';
+import SearchBar from '../searchBar/SearchBar'; 
 import './home.css';
+import apiRequest from '../../lib/apiRequest'; // Add the import here
 
 const Home = () => {
   const { currentUser, userLoggedIn } = useAuth();
-  const [hostels, setHostels] = useState([]);
+  const { hostels, setHostels, filteredHostels, setFilteredHostels } = useHostels();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
 
   useEffect(() => {
     const fetchHostels = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/hostels');
-        const data = await response.json();
+        const response = await apiRequest.get('/hostels');
+        const data = response.data;
         data.sort((a, b) => b.averageRating - a.averageRating);
         setHostels(data);
+
+        const storedFilteredHostels = localStorage.getItem('filteredHostels');
+        const filterApplied = localStorage.getItem('isFilterApplied') === 'true';
+
+        if (location.state?.fromFilter) {
+          if (storedFilteredHostels) {
+            setFilteredHostels(JSON.parse(storedFilteredHostels));
+            setIsFilterApplied(true);
+          } else {
+            setFilteredHostels(data);
+          }
+        } else {
+          setFilteredHostels(data);
+          setIsFilterApplied(false);
+          localStorage.removeItem('filteredHostels');
+          localStorage.removeItem('isFilterApplied');
+        }
       } catch (error) {
         console.error('Error fetching hostels:', error);
       }
     };
 
     fetchHostels();
-  }, []);
+  }, [setHostels, setFilteredHostels, location.state]);
+
+  useEffect(() => {
+    console.log('Filtered Hostels:', filteredHostels); // Debugging line
+  }, [filteredHostels]);
+
+  const handleSearch = (filteredData) => {
+    setFilteredHostels(filteredData);
+  };
+
+  const handleFilterClick = () => {
+    navigate('/filter', { state: { fromFilter: true } });
+  };
+
+  const handleCancelFilter = () => {
+    setFilteredHostels(hostels);
+    localStorage.removeItem('filteredHostels');
+    localStorage.removeItem('isFilterApplied');
+    setIsFilterApplied(false);
+  };
 
   if (!userLoggedIn) {
     return <Navigate to="/login" />;
@@ -33,34 +75,28 @@ const Home = () => {
       <header className="header">
         <h1>NUStay</h1>
       </header>
-      <div className="search-bar-container">
-        <input
-          type="text"
-          placeholder="Search hostel"
-          className="search-bar"
-          disabled
-        />
-        <div className="filter-container">
-          <input type="text" placeholder="Min Price" className="filter-input" disabled />
-          <input type="text" placeholder="Max Price" className="filter-input" disabled />
-          <input type="text" placeholder="Room Type" className="filter-input" disabled />
-          <button className="filter-button" disabled>Filter</button>
-        </div>
+
+      <div className="search-bar-container"> 
+        <SearchBar hostels={hostels} setFilteredHostels={handleSearch} />
+        <button className="filter-button profile nav-button" onClick={handleFilterClick}>
+          Filter
+        </button>
+        {isFilterApplied && (
+          <button className="cancel-filter-button profile nav-button" onClick={handleCancelFilter}>
+            Cancel Filter
+          </button>
+        )}
       </div>
+
       <div className="main-content">
         <div className="hostel-list-section">
           <h2>Top rated hostels in NUS</h2>
-          <List posts={hostels} />
+          <List posts={filteredHostels} />
         </div>
         <div className="map-explore-section">
           <h2>Map</h2>
           <div className="map-container">
-          <Map items={hostels} />
-            {/* <Link to="/explore-map">
-              <img src="path/to/your/map/image.png" alt="Explore map" className="map-image" />
-              <p>Explore on map</p>
-            </Link> */}
-            
+            <Map items={filteredHostels} />
           </div>
         </div>
       </div>

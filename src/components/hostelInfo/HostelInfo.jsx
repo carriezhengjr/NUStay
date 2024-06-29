@@ -6,42 +6,26 @@ import Rating from '../rating/Rating';
 import Map from '../map/Map';
 import Slider from '../slider/Slider';
 import { useAuth } from '../../contexts/authContext';
+import { useHostels } from '../../contexts/HostelContext';
 
 const HostelInfo = () => {
   const { id } = useParams();
   const { currentUser } = useAuth();
+  const { hostels, saveHostel } = useHostels();
   const [hostel, setHostel] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
-    const fetchHostel = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/hostels/${id}`);
-        const data = await response.json();
-        setHostel(data);
-        setIsSaved(data.savedBy.includes(currentUser.uid));
-      } catch (error) {
-        console.error('Error fetching hostel:', error);
-      }
-    };
-
-    fetchHostel();
-  }, [id, currentUser.uid]);
+    const fetchedHostel = hostels.find((hostel) => hostel._id === id);
+    if (fetchedHostel) {
+      setHostel(fetchedHostel);
+      setIsSaved(fetchedHostel.savedBy.includes(currentUser.uid));
+    }
+  }, [id, hostels, currentUser.uid]);
 
   const handleSave = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/hostels/save/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId: currentUser.uid }),
-      });
-      const data = await response.json();
-      setIsSaved(data.savedBy.includes(currentUser.uid));
-    } catch (error) {
-      console.error('Error saving hostel:', error);
-    }
+    await saveHostel(id, currentUser.uid);
+    setIsSaved((prev) => !prev);
   };
 
   if (!hostel) {

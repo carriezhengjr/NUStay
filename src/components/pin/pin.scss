@@ -1,15 +1,16 @@
-.popupContainer{
+.popupContainer {
   display: flex;
+  flex-direction: column;
   gap: 20px;
+  max-height: 200px; /* Adjust this value as needed */
+  overflow-y: auto;
+}
 
-  img{
-    width: 64px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
+.popupItem {
+  display: flex;
+  gap: 10px;
 
-  .textContainer{
+  .textContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

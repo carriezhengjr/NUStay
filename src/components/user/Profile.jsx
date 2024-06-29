@@ -50,7 +50,7 @@ export default function Profile() {
     <div className="fields">
       <input 
         type="text" 
-        /* value={username}  */
+        value={username} 
         onChange={(e) => setUsername(e.target.value)} 
         placeholder="Update your username here"
         disabled={usernameLoading}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase";
-import { doc, deleteDoc, updateDoc, collection, query, onSnapshot, orderBy, addDoc, serverTimestamp, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc, collection, query, onSnapshot, orderBy, addDoc, serverTimestamp, arrayUnion, arrayRemove, collectionGroup, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../contexts/authContext';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -34,7 +34,7 @@ const Comment = ({ postId, comment }) => {
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName || currentUser.email,
-        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+        photoURL: currentUser.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
       });
       setReply("");
       setShowReplyInput(false);
@@ -174,7 +174,7 @@ const Replies = ({ postId, commentId }) => {
       {replies.map((reply) => (
         <div key={reply.id} id="reply-container">
           <div id="reply-content">
-            <img id="user-reply-profile" src={reply.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile"  />
+            <img id="user-reply-profile" src={reply.photoURL || "https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="User Profile" />
             <div className="reply-user-info">
               <p id="reply-user">{reply.displayName}</p>
               <p id="reply-timestamp">{formatDate(reply.createdAt)} {reply.updatedAt && `(Edited at: ${formatDate(reply.updatedAt)})`}</p>

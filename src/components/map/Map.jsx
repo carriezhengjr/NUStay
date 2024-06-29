@@ -5,6 +5,20 @@ import 'leaflet/dist/leaflet.css';
 import Pin from '../pin/Pin';
 
 const Map = ({ items }) => {
+  const groupItemsByCoordinates = (items) => {
+    const grouped = {};
+    items.forEach(item => {
+      const key = `${item.latitude},${item.longitude}`;
+      if (!grouped[key]) {
+        grouped[key] = [];
+      }
+      grouped[key].push(item);
+    });
+    return grouped;
+  };
+
+  const groupedItems = groupItemsByCoordinates(items);
+
   return (
     <MapContainer
       center={
@@ -20,8 +34,8 @@ const Map = ({ items }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {items.map(item => (
-        <Pin key={item._id} item={item} />
+      {Object.values(groupedItems).map((group, index) => (
+        <Pin key={index} items={group} />
       ))}
     </MapContainer>
   );

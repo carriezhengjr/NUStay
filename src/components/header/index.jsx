@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 import { doSignOut } from '../../firebase/auth';
-import './navbar.css'; // Import the new CSS file
+import './navbar.css';
 
 const Header = () => {
   const navigate = useNavigate();
   const { userLoggedIn, currentUser } = useAuth();
+  const defaultPhotoURL = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
   const [open, setOpen] = useState(false);
+  const [photoURL, setPhotoURL] = useState(currentUser?.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+  useEffect(() => {
+    if (currentUser?.photoURL) {
+      setPhotoURL(currentUser.photoURL);
+    } else {
+        setPhotoURL(defaultPhotoURL);
+    }
+  }, [currentUser]);
 
   return (
     <nav>
@@ -17,9 +27,11 @@ const Header = () => {
           <span>NUStay</span>
         </Link>
         <Link to="/home" className="nav-button">Home</Link>
-        <a href="/" className="nav-button">Explore</a>
-        <a href="/" className="nav-button">Saved</a>
-        <a href="/" className="nav-button">About</a>
+        <Link to="/explore" className="nav-button">Explore</Link>
+        {userLoggedIn && (
+          <Link to="/saved" className="nav-button">Saved</Link>
+        )}
+        <Link to="/about" className="nav-button">About</Link>
       </div>
       <div className="right">
         {userLoggedIn ? (
@@ -32,12 +44,11 @@ const Header = () => {
             </button>
             <div className="user">
               <img
-                src="https://images.pexels.com/photos/91226/pexels-photo-91226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={photoURL}
                 alt="User"
               />
-              <span>{currentUser.displayName ? currentUser.displayName : currentUser.email}</span>
+              <span>{currentUser?.displayName || currentUser?.email}</span>
               <Link to="/profile" className="profile nav-button">
-                <div className="notification">1</div>
                 <span>Profile</span>
               </Link>
             </div>
@@ -57,9 +68,9 @@ const Header = () => {
         </div>
         <div className={open ? "menu active" : "menu"}>
           <Link to="/home">Home</Link>
-          <a href="/">About</a>
-          <a href="/">Contact</a>
-          <a href="/">Agents</a>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/agents">Agents</Link>
           <Link to="/login">Sign in</Link>
           <Link to="/register">Sign up</Link>
         </div>

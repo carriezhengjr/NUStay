@@ -143,3 +143,12 @@ nav {
     right: 0;
   }
   
+  .icon img {
+    width: 24px; /* Ensure consistent size */
+    height: 24px;
+    cursor: pointer;
+  }
+  
+  .icon.saved img {
+    filter: invert(38%) sepia(89%) saturate(3771%) hue-rotate(243deg) brightness(84%) contrast(94%);
+  }

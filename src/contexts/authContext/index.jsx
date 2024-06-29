@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "../../firebase/firebase";
-// import { GoogleAuthProvider } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { db } from "../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -15,44 +16,56 @@ export function AuthProvider({ children }) {
   const [isEmailUser, setIsEmailUser] = useState(false);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [displayNames, setDisplayNames] = useState({});
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, initializeUser);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser({ ...user });
+
+        const isEmail = user.providerData.some(
+          (provider) => provider.providerId === "password"
+        );
+        setIsEmailUser(isEmail);
+
+        const isGoogle = user.providerData.some(
+          (provider) => provider.providerId === "google.com"
+        );
+        setIsGoogleUser(isGoogle);
+
+        setUserLoggedIn(true);
+      } else {
+        setCurrentUser(null);
+        setUserLoggedIn(false);
+      }
+      setLoading(false);
+    });
+
     return unsubscribe;
   }, []);
 
-  async function initializeUser(user) {
-    if (user) {
-
-      setCurrentUser({ ...user });
-
-      // check if provider is email and password login
-      const isEmail = user.providerData.some(
-        (provider) => provider.providerId === "password"
-      );
-      setIsEmailUser(isEmail);
-
-      // check if the auth provider is google or not
-    //   const isGoogle = user.providerData.some(
-    //     (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID
-    //   );
-    //   setIsGoogleUser(isGoogle);
-
-      setUserLoggedIn(true);
-    } else {
-      setCurrentUser(null);
-      setUserLoggedIn(false);
+  const fetchDisplayName = async (uid) => {
+    if (displayNames[uid]) {
+      return displayNames[uid];
     }
-
-    setLoading(false);
-  }
+    const userDoc = await getDoc(doc(db, "users", uid));
+    if (userDoc.exists()) {
+      const displayName = userDoc.data().displayName;
+      setDisplayNames((prev) => ({ ...prev, [uid]: displayName }));
+      return displayName;
+    }
+    return null;
+  };
 
   const value = {
     userLoggedIn,
     isEmailUser,
     isGoogleUser,
     currentUser,
-    setCurrentUser
+    setCurrentUser,
+    loading,
+    setLoading,
+    fetchDisplayName,
   };
 
   return (

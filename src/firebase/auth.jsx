@@ -45,7 +45,7 @@ export const doSendEmailVerification = () => {
 };
 
 // Upload function to handle profile photo upload
-export const upload = async (file, currentUser, setLoading, setCurrentUser) => {
+export const uploadPhoto = async (file, currentUser, setLoading, setCurrentUser) => {
   if (!currentUser || !currentUser.uid) {
     console.error("Invalid currentUser:", currentUser);
     return;
@@ -64,10 +64,28 @@ export const upload = async (file, currentUser, setLoading, setCurrentUser) => {
 
     setLoading(false);
     alert("Uploaded file! Refresh to see changes.");
+
+    // Update the photoURL in comments and replies
+    const batch = writeBatch(db);
+
+    // Fetch all comments made by the current user
+    const commentsQuerySnapshot = await getDocs(query(collectionGroup(db, "comments"), where("uid", "==", currentUser.uid)));
+    commentsQuerySnapshot.forEach((doc) => {
+      batch.update(doc.ref, { photoURL });
+    });
+
+    // Fetch all replies made by the current user
+    const repliesQuerySnapshot = await getDocs(query(collectionGroup(db, "replies"), where("uid", "==", currentUser.uid)));
+    repliesQuerySnapshot.forEach((doc) => {
+      batch.update(doc.ref, { photoURL });
+    });
+
+    await batch.commit();
+
   } catch (error) {
     setLoading(false);
-    console.error("Error uploading file:", error);
-    alert("Failed to upload file");
+    console.error("Error uploading photo:", error);
+    alert("Failed to upload photo");
   }
 };
 
@@ -111,3 +129,4 @@ export const updateUsername = async (username, currentUser, setLoading, setCurre
     alert("Failed to update username");
   }
 };
+

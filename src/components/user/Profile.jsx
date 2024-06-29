@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/authContext";
-import { upload, updateUsername } from "../../firebase/auth"; // Import the updateUsername function
+import { uploadPhoto, updateUsername } from "../../firebase/auth"; // Import the necessary functions
 import "./profile.css";
 
 export default function Profile() {
@@ -19,7 +19,7 @@ export default function Profile() {
   }
 
   async function handleUpload() {
-    await upload(photo, currentUser, setLoading, setCurrentUser);
+    await uploadPhoto(photo, currentUser, setLoading, setCurrentUser);
   }
 
   async function handleUsernameUpdate() {
@@ -82,3 +82,4 @@ export default function Profile() {
     </div>
   );
 }
+

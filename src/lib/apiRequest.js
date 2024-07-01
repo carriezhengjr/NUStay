@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-// Set the base URL based on the environment variable
-const baseURL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
-
 const apiRequest = axios.create({
-  baseURL: baseURL,
+  baseURL: 'http://localhost:5000/api', // Your actual API base URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,3 +20,4 @@ apiRequest.interceptors.response.use((response) => {
 });
 
 export default apiRequest;
+
